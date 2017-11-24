@@ -15,7 +15,7 @@
             <div class="card-body">
               <h4 class="card-title text-nowrap">{{weatherItem.name}}</h4>
               <p class="card-text">{{weatherItem.info | capitalize}}</p>
-              <img title="{{weatherItem.info}}" class="weather-icon" src="http://openweathermap.org/img/w/{{weatherItem.icon}}.png" />
+              <img title="{{weatherItem.info}}" alt="{{weatherItem.info}}" class="weather-icon" src="http://openweathermap.org/img/w/{{weatherItem.icon}}.png" />
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item text-center text-nowrap no-padding">
@@ -32,7 +32,7 @@
           </div>
       </div>
     </div>
-    <span *ngIf="weatherHistory">
+    <div *ngIf="weatherHistory">
       <div class="separator"></div>
       <div class="btn-group liquid-wrapper">
         <button type="button" class="btn btn-info"
@@ -40,7 +40,7 @@
         <button type="button" class="btn btn-light"
           (click)="weatherIndex=weatherIndex+1" [disabled]="(weather.loading) || (weatherIndex == weather.weatherGroups.length -1) || (weather.weatherGroups.length < 2)">Check older</button>
       </div>
-    </span>
+    </div>
   </div>
 </div>
 
