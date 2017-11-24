@@ -1,0 +1,192 @@
+/* Variables
+-------------------------------------------------- */
+$dark-gray-color: #666666;
+$light-gray-color: lighten($dark-gray-color, 50%);
+$border-radius: 4px;
+
+/* Mixin for vendor prefix		
+-------------------------------------------------- */		
+@mixin prefix($property, $value, $prefixes: ()) {		
+  @each $prefix in $prefixes {		
+    #{'-' + $prefix + '-' + $property}: $value;		
+  }		
+ 		
+  // Output standard non-prefixed declaration		
+  #{$property}: $value;		
+}		
+
+@mixin keyframes($animation-name) {		
+  @-webkit-keyframes #{$animation-name} {		
+    @content		
+  }		
+  @-moz-keyframes #{$animation-name} {		
+    @content		
+  }		
+  @-o-keyframes #{$animation-name} {		
+	@content		
+  }		
+  @keyframes #{$animation-name} {		
+    @content		
+  } 		
+}
+
+/* General styling		
+-------------------------------------------------- */	
+body {
+	min-width: 320px;
+	font-family: sans-serif;
+	color: $dark-gray-color;
+	font-size: 12px!important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-transform: none;
+    font-weight: 200;
+    margin-bottom: 0px;
+}
+
+h1, .h1 {
+    font-size: 1.6em!important;
+    padding-bottom: 0px;
+}
+
+h2, .h2 {
+    font-size: 1.5em!important;
+    font-weight: 600;
+}
+
+h3, .h3 {
+    font-size: 1.2em!important;
+}
+
+h4, .h4 {
+    font-size: 1.1em!important;
+}
+
+h5, h6, .h5, .h6 {
+    font-size: 1em!important;
+}
+
+input, a, button { 
+	&:focus {
+		outline: none!important;
+	}
+}
+
+.btn {
+  cursor: pointer;
+}
+
+[disabled] {
+  cursor: not-allowed;
+}
+
+.main-section {
+	max-width: 940px;
+	margin-top: 70px;
+}
+
+.fake-disable {
+  opacity: 0.6;
+}
+
+ul.list-group.list-group-flush + .card-footer {
+  border-top: 0;
+}
+
+/* General Animatios */
+@include keyframes(show-popin) {
+	0% { 
+		opacity: 0;
+	}
+	25% {
+		@include prefix(transform, scale(0.5), webkit moz o);
+	}
+	100% { 
+		opacity: 1; 
+		@include prefix(transform, scale(1), webkit moz o);
+	} 
+}
+
+.card {
+  @include prefix(animation, show-popin 1s, webkit moz o);
+}
+  
+/* Separator divider		
+-------------------------------------------------- */	
+.separator {
+	clear: both;
+	width: 100%;
+	border-top: 1px solid transparent;
+    margin-bottom: 10px;
+	
+	&:before {
+		content: '';
+		display: block;
+		border-bottom: 1px solid $light-gray-color;
+		margin-top: 10px;
+	}
+}
+
+/* Liquid wrapper		
+-------------------------------------------------- */	
+.liquid-wrapper {
+	width: 100%;
+	&:not(tr) {
+		text-align: center;
+
+    > * {
+      float: left;
+    }
+	}
+}
+
+.liquid-wrapper:not(.fullsize) > :nth-child(1):nth-last-child(1) {
+	width: 50%;
+	margin: auto;
+}
+.liquid-wrapper.fullsize > :nth-child(1):nth-last-child(1) {
+	width: 100%;
+	margin: auto;
+}
+
+@for $i from 2 through 10 {
+  $ruleString: "";
+	@for $j from 1 through $i {
+    $ruleString: $ruleString + ".liquid-wrapper > :nth-child(#{$j}):nth-last-child(#{$i + 1 - $j}),";
+	}
+	#{$ruleString} {
+	  width: 100%/$i;
+	}
+}
+
+/* Media queries
+-------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+
+  .main-section {
+		margin-top: 60px;
+	}
+  
+  .liquid-wrapper > * {
+		width: 100%!important;
+		float: none!important;
+		&:not(:first-child) {
+			border-top-right-radius: 0!important;
+			border-top-left-radius: 0!important;
+      border-top-width: 0;
+		}
+		&:first-child {
+			border-top-right-radius: $border-radius!important;
+			border-top-left-radius: $border-radius!important;
+		}
+		&:not(:last-child) {
+			border-bottom-right-radius: 0!important;
+			border-bottom-left-radius: 0!important;
+		}
+		&:last-child {
+			border-bottom-right-radius: $border-radius!important;
+			border-bottom-left-radius: $border-radius!important;
+		}
+	}
+}

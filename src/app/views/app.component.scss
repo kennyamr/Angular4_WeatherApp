@@ -1,0 +1,58 @@
+/* Variables
+-------------------------------------------------- */
+$blue-color: #17a2b8;
+$red-color: #dc3545;
+
+
+/* Cards styling		
+-------------------------------------------------- */	
+.weather-wrapper {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+  .card.weather-item {
+    .card-body {
+      position: relative;
+        
+      p.card-text {
+        margin-bottom: 0;
+      }
+      
+      img.weather-icon {
+        position: absolute;
+        bottom: 0;
+        right: 1px;
+      }
+    }
+    
+    ul.list-group.list-group-flush {
+      span[class*="-temp"] {
+        display:inline-block;
+        width: calc(100%/3);
+        &.min-temp {
+          color: $blue-color;
+        }
+        &.current-temp {
+          font-size: 150%;
+        }
+        &.max-temp {
+          color: $red-color;
+        }
+      }
+    }
+  }
+}
+
+/* Media queries
+-------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+  .weather-wrapper {
+    > :not(:first-child) .weather-item{
+      margin-top: 10px;
+    }
+    > :not(:last-child) .weather-item{
+      margin-bottom: 10px;
+    }
+  }
+    
+}

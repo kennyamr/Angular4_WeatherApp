@@ -1,0 +1,48 @@
+<div class="container-fluid main-section">
+  <h1>Check the Weather Forecast!</h1>
+  
+  <div *ngIf="weather$ | async as weather" [ngClass]="{'loading': weather.loading}">
+    <div *ngIf="weather.error" class="alert-danger">
+      <p>{{weather.error.error.message || weather.error.message}}</p>
+    </div>
+    <div *ngIf="weather.weatherGroups.length == 0">
+      <p>No weather data</p>
+    </div>
+    <div *ngIf="(weather.weatherGroups.length > 0)" class="row weather-wrapper" [ngClass]="{'fake-disable': (weatherIndex!=0)}">
+      <div *ngFor="let weatherItem of weather.weatherGroups[weatherIndex].weatherItems" class="col-md-3">
+          <div class="card weather-item">
+            <div class="card-img-top"></div>
+            <div class="card-body">
+              <h4 class="card-title text-nowrap">{{weatherItem.name}}</h4>
+              <p class="card-text">{{weatherItem.info | capitalize}}</p>
+              <img title="{{weatherItem.info}}" class="weather-icon" src="http://openweathermap.org/img/w/{{weatherItem.icon}}.png" />
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-center text-nowrap no-padding">
+                <span class="min-temp">{{weatherItem.minTemp}}º</span>
+                <span class="current-temp">{{weatherItem.temp}}º</span>
+                <span class="max-temp">{{weatherItem.maxTemp}}º</span>
+              </li>
+              <li class="list-group-item">Clouds: {{weatherItem.clouds}}%</li>
+              <li class="list-group-item">Humidity: {{weatherItem.humidity}}%</li>
+            </ul>
+            <div class="card-footer text-center">
+              <small class="text-muted">{{weather.weatherGroups[weatherIndex].timestamp | date:'MMMM d, HH:mm'}}</small>
+            </div>
+          </div>
+      </div>
+    </div>
+    <span *ngIf="weatherHistory">
+      <div class="separator"></div>
+      <div class="btn-group liquid-wrapper">
+        <button type="button" class="btn btn-info"
+          (click)="weatherIndex=weatherIndex-1" [disabled]="(weather.loading) || (weatherIndex == 0)">Check newer</button>
+        <button type="button" class="btn btn-light"
+          (click)="weatherIndex=weatherIndex+1" [disabled]="(weather.loading) || (weatherIndex == weather.weatherGroups.length -1) || (weather.weatherGroups.length < 2)">Check older</button>
+      </div>
+    </span>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
+
